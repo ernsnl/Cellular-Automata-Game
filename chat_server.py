@@ -24,7 +24,7 @@ if __name__ == "__main__":
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # this has no effect, why ?
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server_socket.bind((None, PORT))
+    server_socket.bind((socket.gethostname(), PORT))
     server_socket.listen(10)
 
     # Add server socket to the list of readable connections
