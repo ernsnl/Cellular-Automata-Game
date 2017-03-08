@@ -1,4 +1,6 @@
 # Echo server program
+
+from thread import *
 import socket
 import sys
 
@@ -26,11 +28,28 @@ if s is None:
     print 'could not open socket'
     sys.exit(1)
 
-while 1:
-    conn, addr = s.accept()
-    print 'Connected by', addr
-    while 1:
+def clientthread(conn):
+    conn.send('Welcome to the server. Type something and hit enter\n')
+     #infinite loop so that function do not terminate and thread do not end.
+    while True:
+
+        #Receiving from client
         data = conn.recv(1024)
-        if not data: break
-        conn.send(data)
-conn.close()
+        reply = 'OK...' + data
+        if not data:
+            break
+
+        conn.sendall(reply)
+
+    #came out of loop
+    conn.close()
+
+while 1:
+    #wait to accept a connection - blocking call
+    conn, addr = s.accept()
+    print 'Connected with ' + addr[0] + ':' + str(addr[1])
+
+    #start new thread takes 1st argument as a function name to be run, second is the tuple of arguments to the function.
+    start_new_thread(clientthread ,(conn,))
+
+s.close()

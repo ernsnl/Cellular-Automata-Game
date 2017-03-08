@@ -5,6 +5,7 @@ import sys
 HOST = '50.17.57.209'    # The remote host
 PORT = 4758              # The same port as used by the server
 s = None
+
 for res in socket.getaddrinfo(HOST, PORT, socket.AF_UNSPEC, socket.SOCK_STREAM):
     af, socktype, proto, canonname, sa = res
     try:
@@ -26,5 +27,5 @@ while 1:
     s.sendall('Hello, world')
     data = s.recv(1024)
     print 'Received', repr(data)
-
+    
 s.close()
