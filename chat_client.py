@@ -7,7 +7,14 @@ def prompt() :
 
 #main function
 if __name__ == "__main__":
-    
+
+    if(len(sys.argv) < 3) :
+        print 'Usage : python chat_client.py hostname port'
+        sys.exit()
+
+    host = sys.argv[1]
+    port = int(sys.argv[2])
+
     host = '50.17.57.209'
     port = 4758
 
