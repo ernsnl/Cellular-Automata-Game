@@ -29,7 +29,7 @@ if s is None:
     sys.exit(1)
 
 def clientthread(conn):
-    conn.send('Welcome to the server. Type something and hit enter\n')
+    conn.send('Welcome to the server. Type something and hit enter')
      #infinite loop so that function do not terminate and thread do not end.
     while True:
 
@@ -48,7 +48,6 @@ while 1:
     #wait to accept a connection - blocking call
     conn, addr = s.accept()
     print 'Connected with ' + addr[0] + ':' + str(addr[1])
-
     #start new thread takes 1st argument as a function name to be run, second is the tuple of arguments to the function.
     start_new_thread(clientthread ,(conn,))
 

@@ -1,4 +1,5 @@
 # Echo client program
+from threading import Thread
 import socket
 import sys
 
@@ -23,9 +24,28 @@ for res in socket.getaddrinfo(HOST, PORT, socket.AF_UNSPEC, socket.SOCK_STREAM):
 if s is None:
     print 'could not open socket'
     sys.exit(1)
-while 1:
-    s.sendall('Hello, world')
-    data = s.recv(1024)
-    print 'Received', repr(data)
-    
-s.close()
+
+def client_send(s):
+    try:
+        while True:
+            print 'Waiting your input:'
+            _input = raw_input()
+            s.sendall(_input)
+    except Exception as e:
+        s.close()
+
+def client_read(s):
+    try:
+        while True:
+            data = s.recv(1024)
+            print 'Received', repr(data)
+    except Exception as e:
+        s.close()
+
+send_data = Thread(target=client_send, args=(s, ))
+send_data.start()
+receive_data =  Thread(target=client_read, args=(s, ))
+receive_data.start()
+
+send_data.join()
+receive_data.join()
